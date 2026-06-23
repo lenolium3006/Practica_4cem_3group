@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  bot:
+    build: .
+    container_name: echo_bot_sqlite
+    volumes:
+      # Пробрасываем папку для файла базы данных, чтобы он сохранялся
+      - ./data:/app/data
+    restart: always
