@@ -1,34 +1,14 @@
-version: '3.8'
-
 services:
-  bot:
-    build: .
-    container_name: echo_bot_container
-    restart: always
-    depends_on:
-      - db
-
+  telegram_bot:
+    build:
+      context: .
+    container_name: telegram_cbs_bot
+    restart: unless-stopped
     env_file:
       - .env
-
     environment:
-      - DB_HOST=db
-      - DB_NAME=bot_db
-      - DB_USER=user
-      - DB_PASSWORD=password
-
-  db:
-    image: postgres:15
-    container_name: bot_database
-    restart: always
-
-    environment:
-      - POSTGRES_DB=bot_db
-      - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=password
-
+      DATA_DIR: /app/data
+      SQLITE_DB_PATH: /app/data/bot.sqlite3
     volumes:
-      - postgres_data:/var/lib/postgresql/data
-
-volumes:
-  postgres_data:
+      - ./data:/app/data
+      - ./logs:/app/logs

@@ -1,10 +1,13 @@
-version: '3.8'
-
 services:
-  bot:
-    build: .
-    container_name: echo_bot_sqlite
+  telegram_bot:
+    build:
+      context: .
+    container_name: telegram_cbs_bot_sqlite
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      DATA_DIR: /app/data
+      SQLITE_DB_PATH: /app/data/bot.sqlite3
     volumes:
-      # Пробрасываем папку для файла базы данных, чтобы он сохранялся
       - ./data:/app/data
-    restart: always
